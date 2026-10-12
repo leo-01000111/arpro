@@ -1,44 +1,37 @@
-#include <stdexcept>
+#pragma once
 #include <array>
-using namespace std;
+#include <iostream>
+#include <stdexcept>
 
-const int n = 3;
-class Vector;
-using Matrix = std::array<Vector,n>;
-
+constexpr int n = 3;
 
 class Vector{
 public:
     double v[n];
 
-    //constructor
-    Vector(){}
-    Vector(double arr[n]);
+    //constructors
+    Vector();
+    Vector(const double arr[n]);
+
+    //element access
+    double& operator[](int i) { return v[i]; }
+    const double& operator[](int i) const { return v[i]; }
 
     //operator section
 
     //addition
-    Vector operator+(const Vector &v1);
+    Vector operator+(const Vector &other) const;
 
     //dot product
-    Vector operator*(const Vector &v1);
+    double operator*(const Vector &other) const;
 
-    //scalar-Vector product
-    Vector operator*(double k);
-
-
-    void display();
+    void display() const;
 };
 
 using Matrix = std::array<Vector,n>;
 
-//matrix-Vector product
-Vector operator*(Matrix &M, const Vector &v){
-    Vector result;
+//scalar-Vector product
+Vector operator*(double k, const Vector &v);
 
-    for(int i = 0; i<n; i++)
-    {
-        result.v[i] = (M[i] * v).v[0];
-    }
-    return result;
-}
+//matrix-Vector product
+Vector operator*(const Matrix &M, const Vector &v);
